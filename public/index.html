@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Typeset — Plain text to clean HTML</title>
+  <meta name="description" content="Paste or drop a .txt file and get clean, semantic HTML instantly. Headings, lists, links and paragraphs detected automatically. Runs entirely in your browser." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231a1712'/><text x='16' y='23' font-family='Georgia,serif' font-size='20' font-weight='700' text-anchor='middle' fill='%23e5452b'>¶</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="masthead">
+    <div class="brand">
+      <span class="pilcrow" aria-hidden="true">¶</span>
+      <span class="wordmark">Typeset</span>
+    </div>
+    <p class="tagline">Plain text in. <em>Clean HTML</em> out.</p>
+    <span class="badge">Runs in your browser · nothing uploaded</span>
+  </header>
+
+  <main class="desk">
+    <!-- INPUT -->
+    <section class="sheet sheet--input" aria-labelledby="in-label">
+      <div class="sheet__bar">
+        <h2 id="in-label" class="sheet__title"><span class="num">01</span> Your text</h2>
+        <div class="bar-actions">
+          <button type="button" class="btn btn--ghost" id="sampleBtn">Try a sample</button>
+          <label class="btn btn--ghost" for="fileInput">Open .txt</label>
+          <input type="file" id="fileInput" accept=".txt,.text,.md,text/plain" hidden />
+          <button type="button" class="btn btn--ghost" id="clearBtn" aria-label="Clear text">Clear</button>
+        </div>
+      </div>
+
+      <div class="dropzone" id="dropzone">
+        <textarea id="input" spellcheck="false" placeholder="Paste or type plain text here…
+
+Blank lines start new paragraphs.
+# A line like this becomes a heading
+- and these lines become a list
+
+…or drop a .txt file anywhere on this sheet."></textarea>
+        <div class="dropzone__overlay" aria-hidden="true">
+          <span>Drop your .txt file</span>
+        </div>
+      </div>
+
+      <div class="sheet__foot">
+        <span id="stats">0 words · 0 characters</span>
+        <span id="fileName" class="file-name"></span>
+      </div>
+    </section>
+
+    <!-- OPTIONS -->
+    <aside class="options" aria-label="Conversion options">
+      <h2 class="options__title"><span class="num">02</span> Options</h2>
+
+      <label class="opt"><input type="checkbox" id="optStructure" checked /><span><b>Detect structure</b>Headings (#), lists, quotes, rules &amp; code blocks</span></label>
+      <label class="opt"><input type="checkbox" id="optInline" checked /><span><b>Inline formatting</b>**bold**, *italic*, `code`</span></label>
+      <label class="opt"><input type="checkbox" id="optLinks" checked /><span><b>Auto-link</b>Turn URLs &amp; emails into links</span></label>
+      <label class="opt"><input type="checkbox" id="optBreaks" checked /><span><b>Keep line breaks</b>Single newlines become &lt;br&gt;</span></label>
+      <label class="opt"><input type="checkbox" id="optSmart" /><span><b>Smart punctuation</b>“Curly quotes”, en–dashes &amp; ellipses…</span></label>
+      <label class="opt"><input type="checkbox" id="optDoc" checked /><span><b>Full HTML document</b>Adds &lt;head&gt;, title &amp; a clean stylesheet</span></label>
+
+      <div class="field" id="titleField">
+        <label for="docTitle">Document title</label>
+        <input type="text" id="docTitle" placeholder="Auto: first heading" />
+      </div>
+    </aside>
+
+    <!-- OUTPUT -->
+    <section class="sheet sheet--output" aria-labelledby="out-label">
+      <div class="sheet__bar">
+        <h2 id="out-label" class="sheet__title"><span class="num">03</span> Your HTML</h2>
+        <div class="tabs" role="tablist">
+          <button type="button" role="tab" class="tab is-active" aria-selected="true" data-view="preview">Preview</button>
+          <button type="button" role="tab" class="tab" aria-selected="false" data-view="source">Source</button>
+        </div>
+      </div>
+
+      <div class="output">
+        <iframe id="preview" class="view view--preview is-active" title="HTML preview" sandbox="allow-popups allow-popups-to-escape-sandbox"></iframe>
+        <pre id="source" class="view view--source" tabindex="0"><code></code></pre>
+        <div class="empty" id="empty">
+          <span class="empty__mark" aria-hidden="true">¶</span>
+          <p>Your typeset page appears here.</p>
+          <button type="button" class="btn btn--link" id="sampleBtn2">Load a sample to see how it works →</button>
+        </div>
+      </div>
+
+      <div class="sheet__foot sheet__foot--actions">
+        <span id="outStats">—</span>
+        <div class="bar-actions">
+          <button type="button" class="btn btn--ink" id="copyBtn" disabled>Copy HTML</button>
+          <button type="button" class="btn btn--accent" id="downloadBtn" disabled>Download .html</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <section class="guide" aria-labelledby="guide-title">
+    <h2 id="guide-title">How your text is read</h2>
+    <dl class="guide__grid">
+      <div><dt><code>Blank line</code></dt><dd>Starts a new paragraph</dd></div>
+      <div><dt><code># Title</code> · <code>## Sub</code></dt><dd>Headings, levels 1–6</dd></div>
+      <div><dt><code>Title</code><br /><code>=====</code></dt><dd>Underlined lines become headings too</dd></div>
+      <div><dt><code>- item</code> · <code>1. item</code></dt><dd>Bulleted &amp; numbered lists</dd></div>
+      <div><dt><code>&gt; quote</code></dt><dd>Blockquotes</dd></div>
+      <div><dt><code>---</code></dt><dd>Horizontal rule</dd></div>
+      <div><dt><code>```</code> or 4-space indent</dt><dd>Preformatted code blocks</dd></div>
+      <div><dt><code>&lt;tags&gt;</code></dt><dd>Always escaped — safe to paste anything</dd></div>
+    </dl>
+  </section>
+
+  <footer class="colophon">
+    <p>Typeset · Set in Fraunces &amp; IBM Plex Mono · Your text never leaves this page.</p>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="/convert.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
